@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    详情
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}">
+{% endblock %}
+
+{% block main %}
+    <h3 class="question-title">{{ question.title }}</h3>
+    <p class="question-info">
+        <span>作者：{{ question.author.username }}</span>
+        <span>时间：{{ question.create_time }}</span>
+    </p>
+    <hr>
+    <pre class="question-content">{{ question.content }}</pre>
+    <hr>
+
+    <h4>回答 ({{ question.answers|length }}):</h4>
+    <form action="{{ url_for('add_answer') }}" method="post">
+        <div class="form-group">
+            <textarea class="form-control" placeholder="此处填写回答" rows="4" name="answer_content"></textarea>
+            <input type="hidden" name="question_id" value="{{ question.id }}">
+        </div>
+        <div class="form-group" style="text-align: right">
+            <button class="btn btn-primary">提交</button>
+        </div>
+    </form>
+
+    <ul class="answer-list">
+        {% for ans in question.answers %}
+            <li>
+                <div class="answer-info">
+                    <image src="{{ url_for('static', filename='images/user.png') }}" class="answer-avatar"
+                           alt=""></image>
+                    <span class="answer-username">{{ ans.author.username }}</span>
+                    <span class="answer-createtime">{{ ans.create_time }}</span>
+                </div>
+                <pre class="answer-content">{{ ans.content }}</pre>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
