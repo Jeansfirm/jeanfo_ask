@@ -24,8 +24,29 @@ db.init_app(app)
 
 @app.route('/')
 def index():
+    page = request.args.get('page', app.config['INIT_PAGE_NUM'], type=int)
+    pagination = Question.query.order_by('-create_time').paginate(page, app.config['INIT_PAGE_LEN'], False)
     context = {
-        'questions': Question.query.order_by('-create_time').all()
+        'questions': pagination.items,
+        'pagination': pagination
+    }
+    return render_template('index.html', **context)
+
+
+@app.route('/questions/page/<int:page>')
+def questions_page(page=None):
+    if page is None:
+        page = 1
+    qstring = request.args.get('qstring')
+    if qstring is not None:
+        questions = Question.query.filter(Question.title.ilike(u"%{}%".format(qstring)))
+    else:
+        questions = Question.query
+    pagination = questions.order_by('-create_time').paginate(page, app.config['INIT_PAGE_LEN'], False)
+    context = {
+        'questions': pagination.items,
+        'pagination': pagination,
+        'qstring': qstring
     }
     return render_template('index.html', **context)
 
@@ -114,6 +135,12 @@ def add_answer():
     db.session.commit()
 
     return redirect(url_for('detail', question_id=question_id))
+
+
+@app.route('/search', methods=['POST'])
+def search():
+    qstring = request.form.get('qstring')
+    return redirect(url_for('questions_page', page=1, qstring=qstring))
 
 
 @app.context_processor

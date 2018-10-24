@@ -39,3 +39,8 @@ ul li{
 .question-author{
     margin-right: 15px;
 }
+
+.my_pagination{
+    margin-top: 30px;
+    text-align: center;
+}
