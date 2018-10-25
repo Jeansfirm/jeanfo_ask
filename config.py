@@ -12,7 +12,7 @@ import os
 
 # Page config
 INIT_PAGE_NUM = 1
-INIT_PAGE_LEN = 2
+INIT_PAGE_LEN = 10
 
 # Debug Mode
 DEBUG = True
