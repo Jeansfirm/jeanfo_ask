@@ -56,7 +56,7 @@ prometheus-client==0.3.1
 prompt-toolkit==1.0.15
 ptyprocess==0.6.0
 pycurl==7.19.0
-Pygments==2.2.0
+Pygments==2.7.4
 pygobject==3.14.0
 pygpgme==0.3
 pyliblzma==0.5.3
